@@ -2,7 +2,7 @@ package br.com.casadocodigo.loja.models;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -40,14 +42,15 @@ public class Livro {
 	@Min(50)
 	private Integer numeroDePaginas;
 
+	@Temporal(TemporalType.DATE)
+	private Calendar dataPublicacao = Calendar.getInstance();
+
+	private String capaPath;
+
 	@ManyToMany
 	@NotNull
 	@Size(min = 1)
 	private List<Autor> autores = new ArrayList<Autor>();
-
-	public void addAutor(Integer autorId) {
-		this.autores.add(new Autor(autorId));
-	}
 
 	public Integer getId() {
 		return id;
@@ -89,8 +92,24 @@ public class Livro {
 		this.numeroDePaginas = numeroDePaginas;
 	}
 
+	public Calendar getDataPublicacao() {
+		return dataPublicacao;
+	}
+
+	public void setDataPublicacao(Calendar dataPublicacao) {
+		this.dataPublicacao = dataPublicacao;
+	}
+
+	public String getCapaPath() {
+		return capaPath;
+	}
+
+	public void setCapaPath(String capaPath) {
+		this.capaPath = capaPath;
+	}
+
 	public List<Autor> getAutores() {
-		return Collections.unmodifiableList(this.autores);
+		return this.autores;
 	}
 
 	public void setAutores(List<Autor> autores) {
