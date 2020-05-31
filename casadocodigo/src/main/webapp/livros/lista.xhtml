@@ -29,6 +29,11 @@
 
 	<div class="container">
 		<h1>Lista de livros</h1>
+		
+		<div>
+			Bem vindo, #{currentUser.get().getEmail()}
+		</div>
+		
 		<h:messages />
 
 		<h:dataTable var="livro" value="#{adminListaLivrosBean.livros}"
