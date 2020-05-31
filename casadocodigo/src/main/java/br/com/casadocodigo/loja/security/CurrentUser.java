@@ -31,6 +31,12 @@ public class CurrentUser {
 		}
 	}
 	
+	public String logout() {
+		request.getSession().invalidate();
+		
+		return "/livros/lista.xhtml?faces-redirect=true";
+	}
+	
 	public boolean hasRole(String role) {
 		return request.isUserInRole(role);
 	}
