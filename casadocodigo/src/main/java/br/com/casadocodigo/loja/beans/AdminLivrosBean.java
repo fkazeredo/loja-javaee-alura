@@ -1,6 +1,5 @@
 package br.com.casadocodigo.loja.beans;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
@@ -20,52 +19,43 @@ import br.com.casadocodigo.loja.models.Livro;
 @Named
 @RequestScoped
 public class AdminLivrosBean {
-
+	
+	private Livro livro = new Livro();
+	
 	@Inject
-	private LivroDao livroDao;
-
+	private LivroDao dao;
 	@Inject
 	private AutorDao autorDao;
-
 	@Inject
-	private FacesContext context;
-
-	private Livro livro = new Livro();
-
+	private FacesContext context; 
+	
 	private Part capaLivro;
-
+	
 	@Transactional
-	public String salvar() throws IOException {
-
-		this.livroDao.salvar(livro);
-
+	public String salvar() {
 		FileSaver fileSaver = new FileSaver();
-		livro.setCapaPath(fileSaver.write(capaLivro, "capas"));
-
-		this.context.getExternalContext().getFlash().setKeepMessages(true);
-		this.context.addMessage(null, new FacesMessage("Livro cadastrado com sucesso"));
-
+		String capaPath = fileSaver.write(capaLivro, "livros");
+		livro.setCapaPath(capaPath);
+		dao.salvar(livro);
+		
+		context.getExternalContext()
+			.getFlash().setKeepMessages(true);
+		context
+			.addMessage(null, new FacesMessage("Livro cadastrado com sucesso!"));
+		
 		return "/livros/lista?faces-redirect=true";
 	}
 
 	public List<Autor> getAutores() {
-		return this.autorDao.listar();
+		return autorDao.listar();
 	}
-
+	
 	public Livro getLivro() {
 		return livro;
 	}
 
 	public void setLivro(Livro livro) {
 		this.livro = livro;
-	}
-
-	public LivroDao getLivroDao() {
-		return livroDao;
-	}
-
-	public void setLivroDao(LivroDao livroDao) {
-		this.livroDao = livroDao;
 	}
 
 	public Part getCapaLivro() {

@@ -13,7 +13,15 @@ public class AutorDao {
 	private EntityManager manager;
 
 	public List<Autor> listar() {
-		return manager.createQuery("select a from Autor a", Autor.class).getResultList();
+		return manager.createQuery(
+				"select a from Autor a", Autor.class)
+				.getResultList();
 	}
-
+	
 }
+
+
+
+
+
+

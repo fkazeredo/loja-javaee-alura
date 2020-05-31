@@ -3,11 +3,13 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:xlink="http://www.w3.org/1999/xlink">
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
 <f:metadata>
-    <f:viewParam id="id" name="id" value="#{livroDetalheBean.id}"/>
-    <f:viewAction action="#{livroDetalheBean.carregarDetalhe()}"/>
+	<f:viewParam value="#{livroDetalheBean.id}" name="id" />
+	<f:viewAction action="#{livroDetalheBean.carregaDetalhe()}" />
 </f:metadata>
 
 <head>
@@ -273,7 +275,7 @@
 			</span>
 		</h1>
 		<span class="cabecalhoProdutoLivro-nomeAutor">
-			<ui:repeat value="#{livroDetalheBean.livro.autores}" var="autor" varStatus="sts">
+			<ui:repeat value="#{livroDetalheBean.livro.autores}" var="autor">
 				#{autor.nome},
 			</ui:repeat>
 		</span>
@@ -311,7 +313,7 @@
 </header>
 
 	
-<form action="https://www.casadocodigo.com.br/cart/add" method="POST" class="adicionarAoCarrinho">
+<form method="POST" class="adicionarAoCarrinho" jsf:id="formComprar">
 	<ul class="adicionarAoCarrinho-listaOfertas">
 		<li class="adicionarAoCarrinho-oferta" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
 			<label class="adicionarAoCarrinho-infosDaOferta" for="product-variant-2055441665">
@@ -332,9 +334,10 @@
 					</span>
 				</p>
 			</label>
-				<button class="adicionarAoCarrinho-botaoComprar" type="submit" name="id" value="2055441665" title="Compre o E-book">
-					Comprar
-				</button>
+			<button class="adicionarAoCarrinho-botaoComprar" type="submit" title="Compre o E-book" 
+				jsf:action="#{carrinhoComprasBean.add(livroDetalheBean.id)}">
+				Comprar
+			</button>
 		</li>
 	</ul>
 </form>
@@ -361,7 +364,16 @@
 			Número de páginas:
 		</dt>
 		<dd class="infosAdicionaisDoLivro-info-valor" itemprop="numberOfPages">
-			#{livroDetalheBean.livro.numeroDePaginas} páginas
+			#{livroDetalheBean.livro.numeroPaginas} páginas
+		</dd>
+		
+		<dt class="infosAdicionaisDoLivro-info-titulo">
+			Data de publicação:
+		</dt>
+		<dd class="infosAdicionaisDoLivro-info-valor" itemprop="dataPublicacao">
+			<h:outputText value="#{livroDetalheBean.livro.dataPublicacao.time}">
+				<f:convertDateTime pattern="dd/MM/yyyy" />
+			</h:outputText>
 		</dd>
 		
 		<dt class="infosAdicionaisDoLivro-info-titulo">
