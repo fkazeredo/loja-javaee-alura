@@ -34,7 +34,7 @@ public class AdminLivrosBean {
 	@Transactional
 	public String salvar() {
 		FileSaver fileSaver = new FileSaver();
-		String capaPath = fileSaver.write(capaLivro, "livros");
+		String capaPath = fileSaver.write(capaLivro, "capas");
 		livro.setCapaPath(capaPath);
 		dao.salvar(livro);
 		
